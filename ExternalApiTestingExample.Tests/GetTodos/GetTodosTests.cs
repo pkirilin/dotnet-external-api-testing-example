@@ -1,3 +1,6 @@
+using System.Net.Http.Json;
+using System.Threading;
+using ExternalApiTestingExample.WebApi.Dtos;
 using FluentAssertions;
 using Xunit;
 
@@ -8,8 +11,19 @@ public class GetTodosTests : IClassFixture<CustomWebApplicationFactory>
     private readonly CustomWebApplicationFactory _factory = new();
 
     [Fact]
-    public void Fetches_todos_from_external_resource_and_returns_them_back_to_client()
+    public async void Fetches_todos_from_external_resource_and_returns_them_back_to_client()
     {
-        true.Should().BeTrue();
+        var todosFromExternalResource = new []
+        {
+            new TodoItemDto { Id = 1, Title = "first", IsCompleted = true, UserId = 1 },
+            new TodoItemDto { Id = 2, Title = "second", IsCompleted = false, UserId = 1 },
+            new TodoItemDto { Id = 3, Title = "third", IsCompleted = true, UserId = 2 },
+        };
+        
+        var client = _factory.CreateClient();
+
+        var todos = await client.GetFromJsonAsync<TodoItemDto[]>("/todos", CancellationToken.None);
+        
+        todos.Should().Contain(todosFromExternalResource);
     }
 }
