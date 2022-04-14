@@ -1,3 +1,4 @@
+using System;
 using ExternalApiTestingExample.Tests.GetTodos;
 using ExternalApiTestingExample.WebApi.Extensions;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,20 @@ internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
         {
             services.AddTodosClient()
                 .ConfigurePrimaryHttpMessageHandler(() => new FakeHttpMessageHandler());
+        });
+    }
+
+    public WebApplicationFactory<Program> UseFakeTodosClient(
+        Func<FakeHttpMessageHandler, FakeHttpMessageHandler> configureHandler)
+    {
+        var handler = configureHandler.Invoke(new FakeHttpMessageHandler());
+        
+        return WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureTestServices(services =>
+            {
+                services.AddTodosClient().ConfigurePrimaryHttpMessageHandler(() => handler);
+            });
         });
     }
 }
