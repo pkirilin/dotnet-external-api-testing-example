@@ -10,7 +10,7 @@ namespace ExternalApiTestingExample.Tests.GetTodos;
 
 public class FakeHttpMessageHandler : HttpMessageHandler
 {
-    private HttpStatusCode _statusCode = HttpStatusCode.OK;
+    private HttpStatusCode _statusCode = HttpStatusCode.NotFound;
     private HttpContent? _responseContent;
     
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
