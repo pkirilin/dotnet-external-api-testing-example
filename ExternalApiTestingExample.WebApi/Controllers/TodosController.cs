@@ -15,9 +15,18 @@ public class TodosController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetTodos(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllTodos(CancellationToken cancellationToken)
     {
         var todos = await _todosClient.GetTodosAsync(cancellationToken);
+        
+        return Ok(todos);
+    }
+    
+    [HttpGet("completed")]
+    public async Task<IActionResult> GetCompletedTodos(CancellationToken cancellationToken)
+    {
+        var todos = await _todosClient.GetTodosAsync(cancellationToken);
+        todos = todos?.Where(todo => todo.IsCompleted).ToArray();
         
         return Ok(todos);
     }
