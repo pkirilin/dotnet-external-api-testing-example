@@ -8,7 +8,7 @@ using ExternalApiTestingExample.WebApi.Dtos;
 
 namespace ExternalApiTestingExample.Tests.GetTodos;
 
-public class FakeTodosClientHandler : HttpMessageHandler
+public class FakeHttpMessageHandler : HttpMessageHandler
 {
     private HttpStatusCode _statusCode = HttpStatusCode.OK;
     private HttpContent? _responseContent;
@@ -23,7 +23,7 @@ public class FakeTodosClientHandler : HttpMessageHandler
         return Task.FromResult(response);
     }
 
-    public FakeTodosClientHandler WithTodosResponse(IEnumerable<TodoItemDto> todos)
+    public FakeHttpMessageHandler WithTodosResponse(IEnumerable<TodoItemDto> todos)
     {
         _statusCode = HttpStatusCode.OK;
         _responseContent = new StringContent(JsonSerializer.Serialize(todos));

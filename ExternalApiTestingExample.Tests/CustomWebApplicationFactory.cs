@@ -14,7 +14,7 @@ internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
         builder.ConfigureTestServices(services =>
         {
             services.AddTodosClient()
-                .ConfigurePrimaryHttpMessageHandler(() => new FakeTodosClientHandler());
+                .ConfigurePrimaryHttpMessageHandler(() => new FakeHttpMessageHandler());
         });
     }
 }

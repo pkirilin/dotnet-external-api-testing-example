@@ -29,7 +29,7 @@ public class GetTodosTests : IClassFixture<CustomWebApplicationFactory>
                 builder.ConfigureTestServices(services =>
                 {
                     services.AddTodosClient()
-                        .ConfigurePrimaryHttpMessageHandler(() => new FakeTodosClientHandler()
+                        .ConfigurePrimaryHttpMessageHandler(() => new FakeHttpMessageHandler()
                             .WithTodosResponse(todosFromExternalResource)
                         );
                 });
